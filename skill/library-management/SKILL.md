@@ -1,151 +1,82 @@
 ---
 name: library-management
-description: Manage Open Agent library - create, update, delete skills, agents, commands, tools, rules, and MCPs via the Library API
+description: >
+  Create, update, and delete skills, commands, tools, and rules in the Open Agent Library.
+  Trigger terms: library, skill, command, tool, rule, save skill, create skill, new skill.
 ---
 
-# Open Agent Library Management
+## When to Use
+- Creating a new skill, command, tool, or rule
+- Updating existing library content
+- Deleting library items
+- Syncing library changes to git remote
 
-The Open Agent Library is a Git-backed configuration repository that stores reusable components for your agent system. Use the `library_*` tools to manage these components.
+## When NOT to Use
+- Local file operations unrelated to the library
+- Running missions or managing workspaces
 
-## Available Tools
+## Quick Reference
 
-Use these tools to manage the library. Tool names follow the pattern `<filename>_<export>`:
+| Resource | List | Get | Save | Delete |
+|----------|------|-----|------|--------|
+| Skills | `library-skills_list_skills` | `library-skills_get_skill` | `library-skills_save_skill` | `library-skills_delete_skill` |
+| Commands | `library-commands_list_commands` | `library-commands_get_command` | `library-commands_save_command` | `library-commands_delete_command` |
+| Tools | `library-commands_list_tools` | `library-commands_get_tool` | `library-commands_save_tool` | `library-commands_delete_tool` |
+| Rules | `library-commands_list_rules` | `library-commands_get_rule` | `library-commands_save_rule` | `library-commands_delete_rule` |
 
-### Skills (library-skills.ts)
-- `library-skills_list_skills` - List all skills with their descriptions
-- `library-skills_get_skill` - Get full skill content by name
-- `library-skills_save_skill` - Create or update a skill
-- `library-skills_delete_skill` - Delete a skill
+### Git Operations
+- `library-git_status` - Check for uncommitted changes
+- `library-git_commit` - Commit with message
+- `library-git_push` - Push to remote
+- `library-git_sync` - Pull latest changes
 
-### Commands (library-commands.ts)
-- `library-commands_list_commands` - List all commands
-- `library-commands_get_command` - Get full command content by name
-- `library-commands_save_command` - Create or update a command
-- `library-commands_delete_command` - Delete a command
+## Procedure
 
-### Tools (library-commands.ts)
-- `library-commands_list_tools` - List all custom tools
-- `library-commands_get_tool` - Get full tool code by name
-- `library-commands_save_tool` - Create or update a tool
-- `library-commands_delete_tool` - Delete a tool
-
-### Rules (library-commands.ts)
-- `library-commands_list_rules` - List all rules
-- `library-commands_get_rule` - Get full rule content by name
-- `library-commands_save_rule` - Create or update a rule
-- `library-commands_delete_rule` - Delete a rule
-
-### MCPs (library-git.ts)
-- `library-git_get_mcps` - Get all MCP server configurations
-- `library-git_save_mcps` - Save MCP server configurations
-
-### Git Operations (library-git.ts)
-- `library-git_status` - Get git status (branch, modified files, sync state)
-- `library-git_sync` - Pull latest changes from remote
-- `library-git_commit` - Commit all changes with a message
-- `library-git_push` - Push commits to remote
-
----
+1. **List** existing items to see what's there
+2. **Get** current content before modifying (avoid overwrites)
+3. **Save** with the full content (YAML frontmatter + body)
+4. **Commit** with a descriptive message
+5. **Push** to sync with remote
 
 ## File Formats
 
-### Skills (`skill/<name>/SKILL.md`)
-
+### Skill (`skill/<name>/SKILL.md`)
 ```yaml
 ---
 name: skill-name
-description: What this skill does (required, 1-1024 chars)
-license: MIT (optional)
-compatibility: opencode (optional)
-metadata:
-  key: value (optional)
+description: What this skill does
 ---
-
-Skill instructions in markdown...
+Instructions for using this skill...
 ```
 
-Name requirements:
-- 1-64 characters
-- Lowercase alphanumeric with single hyphen separators
-- No leading/trailing hyphens, no consecutive hyphens
-
-### Commands (`command/<name>.md`)
-
+### Command (`command/<name>.md`)
 ```yaml
 ---
 description: Command description
-model: provider/model-id (optional, overrides default)
-subtask: true | false (run as background task)
-agent: agent-name (optional, use specific agent)
 ---
-
-Command prompt template...
-
-Use $ARGUMENTS for user-provided arguments.
+Prompt template. Use $ARGUMENTS for user input.
 ```
 
-### Tools (`tool/<name>.ts`)
-
+### Tool (`tool/<name>.ts`)
 ```typescript
 import { tool } from "@opencode-ai/plugin"
-
-export default tool({
-  description: "Tool description",
-  args: {
-    param: tool.schema.string().describe("Parameter description"),
-  },
-  async execute(args, context) {
-    // Tool implementation
-    return "result"
-  },
+export const my_tool = tool({
+  description: "What it does",
+  args: { param: tool.schema.string().describe("Param description") },
+  async execute(args) { return "result" },
 })
 ```
 
-### Rules (`rule/<name>.md`)
-
+### Rule (`rule/<name>.md`)
 ```yaml
 ---
 description: Rule description
 ---
-
-Rule instructions in markdown...
-Applied to agents that reference this rule.
+Instructions applied to agents referencing this rule.
 ```
 
-### MCPs (`mcp/servers.json`)
-
-```json
-{
-  "server-name": {
-    "type": "local",
-    "command": ["npx", "package-name"],
-    "env": { "KEY": "value" },
-    "enabled": true
-  },
-  "remote-server": {
-    "type": "remote",
-    "url": "https://mcp.example.com",
-    "headers": { "Authorization": "Bearer token" },
-    "enabled": true
-  }
-}
-```
-
----
-
-## Workflow Example
-
-1. **List existing items**: Use `library-skills_list_skills` to see what exists
-2. **Get current content**: Use `library-skills_get_skill` to read before modifying
-3. **Make changes**: Use `library-skills_save_skill` with the full content
-4. **Commit changes**: Use `library-git_commit` with a descriptive message
-5. **Push to remote**: Use `library-git_push` to sync with the git remote
-
----
-
-## Tips
-
-- Always read existing content before updating to avoid overwriting changes
-- Use descriptive commit messages explaining what changed and why
-- Check `library-git_status` to see uncommitted changes before pushing
-- Skills sync automatically to workspaces after saving
+## Checks & Guardrails
+- Always read before updating to avoid overwriting
+- Use descriptive commit messages
+- Check `library-git_status` before pushing
+- Skill names: lowercase, hyphens allowed, 1-64 chars

@@ -1,85 +1,28 @@
-# Sandboxed.sh Library
+# Sandboxed Library
 
-Configuration library for AI coding assistants. Contains skills, commands, and
-MCP server configs that sync to Claude Code, Codex, and other tools.
+Configuration library for
+[sandboxed.sh](https://github.com/Th0rgal/sandboxed.sh) workspaces.
 
 ## Structure
 
-```
-├── skill/              # Reusable skills (SKILL.md + references/)
-├── command/            # Slash commands (markdown files)
-├── mcp/                # MCP server configurations (servers.json)
-├── init-script/        # Initialization scripts for workspaces
-├── workspace-template/ # Workspace templates
-└── script/             # Sync scripts
-```
+- `skill/` — AI agent skills (instructions + references)
+- `command/` — Slash commands
+- `mcp/` — MCP server configurations
+- `init-script/` — Workspace initialization scripts
+- `workspace-template/` — Workspace templates
 
-## Quick Start
+## Secrets
 
-Sync library contents to your local AI tool configs:
-
-```bash
-# Sync everything
-python3 script/sync.py
-
-# Dry run (preview changes)
-python3 script/sync.py --dry-run
-
-# Sync only specific content
-python3 script/sync.py --skills-only
-python3 script/sync.py --commands-only
-python3 script/sync.py --mcp-only
-
-# Prune orphaned items
-python3 script/sync.py --prune
-```
-
-## Creating Skills
-
-Skills are directories in `skill/` containing a `SKILL.md`:
-
-```markdown
----
-name: my-skill
-description: Trigger this skill when user asks about X
----
-
-Instructions for the AI agent...
-```
-
-Add reference files in `skill/my-skill/references/` for additional context.
-
-## Creating Commands
-
-Commands are markdown files in `command/`:
-
-```markdown
----
-description: What this command does
----
-
-Prompt template for the command...
-```
-
-## MCP Configuration
-
-Add servers to `mcp/servers.json`:
+Workspace templates can contain encrypted secrets using the `<encrypted>` tag:
 
 ```json
 {
-  "my-server": {
-    "command": "npx",
-    "args": ["-y", "my-mcp-server"]
+  "env_vars": {
+    "API_KEY": "<encrypted v=\"1\">base64-encrypted-data...</encrypted>"
   }
 }
 ```
 
-## Sync Targets
-
-The sync script writes to:
-
-| Content  | Claude Code           | Codex/Opencode         |
-| -------- | --------------------- | ---------------------- |
-| Skills   | `~/.claude/skills/`   | `~/.codex/skills/`     |
-| Commands | `~/.claude/commands/` | `~/.codex/prompts/`    |
-| MCP      | `~/.claude.json`      | `~/.codex/config.toml` |
+These secrets are automatically decrypted at workspace startup using the `nv`
+encryption key set in your `.env` file. The decrypted values are injected as
+environment variables.

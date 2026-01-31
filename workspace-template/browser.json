@@ -1,0 +1,37 @@
+{
+  "name": "browser",
+  "description": "Ubuntu Noble workspace with Chrome, X11/i3 desktop, Playwright MCP, and browser automation tools. Supports headless Playwright and desktop Chrome sessions.",
+  "distro": "ubuntu-noble",
+  "skills": [
+    "bitwarden-secrets",
+    "github-cli",
+    "library-management",
+    "agent-browser"
+  ],
+  "env_vars": {
+    "DISPLAY": ":99",
+    "BWS_ACCESS_TOKEN": "<encrypted v=\"1\">HQGNEyqnFHwbLHPKRg1yteOtaGqURL5bkRCi74Kwdi7TPriI/VtVD7GL1Ti9/hpHB2x/k5l/oYRnR8eKZoXrusbSUVzofqBY0c1qeqoZ8OG6dAAMQGgKOqu8wXAH7PKwNQSGctx1BSw6nd0VGVkPiOlEUKfDdrl1TxM=</encrypted>",
+    "SSH_PRIVATE_KEY_B64": "<encrypted v=\"1\">0H/DEZBeIEyXilQDkxKiOpfdoi7FYa+yEEGtLPThSPTiErlTglOMlabTAzEZ4ggUecDiwxCgZjSOjgeLEON2M8bySMRnlEJgT8iGhL2yqf0LMKg1k9UUo+kamZ4CoDBe0T4vTWqEtKFKpCTDRCgDdDQ1VrLOu/vqV19jz/VIbGfbvNgPyNeFrk+178lj6p54GOyAylQQGybU+lkswng+qkDIoi8GXeOtn000bVfj6IDOw26aQi9loL7A9y8gftr/lcwZh37mIG0nLlkDTscaH/13u5Ql5fjvkr21Nd1tRFF3TvCoCa3/On5kZ12wNIJRvbl7PyCzzsVONeqG9O2t9toOZjt8hScHl4ZQs5J+KGo/uDCuVlOUZ/RJwZaNoOaHanuQSQrsIKjxs54RNvGqKKF39g+e48jm+Wr5GGNLAFvvrMrjXP1CqkgtKvI/ToDR2maPQGzFskOFg/tmIvyqIgPeaJXXHYiss8ZivqB4de6PquKklqaAgAfGn91V0dUR7/vm6jKMNPK8vFP6cVxJtm/7ZZRykFukTcBTfNbdJw8wy5BVAFyGfBaBL58epZ1MnTiG0OiHk+AVPdsZcP1lk+Akcrmxwl/trW7C54m4XovVVtDcwQj4kTExfmty5cTymuX1ouT762sSr5nfE6KDIk5z8xWnsqdrwd+igPm4QPqPxVgn+YDRyivegHNyiZcyh/0lHIvLaJkZy2T+4Tyt6tnbpifYKR5LBPyzu2gvSVHH8RU5ONZ+xmyl9cu9/FH+</encrypted>",
+    "PLAYWRIGHT_BROWSERS_PATH": "/root/.cache/ms-playwright",
+    "GPG_PRIVATE_KEY_B64": "<encrypted v=\"1\">idGdsEwTxaDcV1VFEBQ3YoWIGexXCWReIztWLpSLM7ppyBnSWXKJCPrCLQBgvKZU1/qtUMZTvy/0W6jKTm09NhedctiHFjTWGd663O95dcklrVtSf513nu1G3JJqiTMGWVExo4eL9hdy2z+p4nEDjUVS26cyDDqWfh8ROfEtrml/NSTOAVDaCr3B501nzgF8yad1OLxa37kPIrNHKwhUNz5qZIVw4itquzOEprZrRHz0EvcYl64STT9bNh+FkyZQpo/er+nwojhcBB8FoaihzQQFTk30pH3OESosFD3O15KZQvvhZ5kcmeU0wJINAHYrKu8+eDb9CO8ao0LH7LOY/EuSMELDyB3CzdENpPxmzZMWl5tZsK+Yd9mqspBTa5gu5CujUnUrH4qtoSCUoS9SxHAMGjUgqgtM7p3WbEB2wO8vdp0FSyaiYeBrFwxQC1QPPQaR/RYKYhOncuNQPPHfaFfA/RjPdRbxVFJzgfPxmsjdwh4PlHZOiHDRHu0pEnOq854scomHjTGmNrBF5W8VUVA1MVfx+4TK7Zak29RhcyaEPSUDvkEbmmlFURZ89VYmuaLp6BEe5bP3hDvff1Ztq1JgoRRPPXN4BCV3oJl4rNhPFO2R+E6ZBefokw1tEswLIU/d66QvidHDSqXTjpFHyaZJKumCUV41Rocn5syn3TTJ/rMc3uvJaUy9OSZRksMsayxoaCu7XsIN5Qv/+MTbh+tfBnaydkhHr+KY6CkGunanURG6/NgK+FLZj8PMEMamRXLc+gVFt++pNmmBAqdU5bnRyDBpWuElJfKbS9UAg/oOnjkXDzhzyuKwpZ62/4sMkiQCC2mv/GKMPrvaw5KCV7OsDmjlUo4l</encrypted>"
+  },
+  "encrypted_keys": [
+    "SSH_PRIVATE_KEY_B64",
+    "GPG_PRIVATE_KEY_B64",
+    "BWS_ACCESS_TOKEN"
+  ],
+  "init_scripts": [
+    "base",
+    "ssh-keys",
+    "git-config",
+    "github-cli",
+    "bws",
+    "bun-mcp",
+    "uv-python",
+    "network-helpers",
+    "browser-x11"
+  ],
+  "init_script": "",
+  "shared_network": null,
+  "mcps": []
+}
